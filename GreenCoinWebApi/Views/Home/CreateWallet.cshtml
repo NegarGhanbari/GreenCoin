@@ -1,6 +1,7 @@
-﻿
+﻿@model GreenCoinWebApi.Models.CreateWalletRequest
+
 @{
-    ViewBag.Title = "CreateWallet";
+    ViewBag.Title = "Create Wallet";
 }
 
 <div class="container">
@@ -9,7 +10,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Create Wallet
+                Enter your wallet name
             </h1>
         </div>
     </div>
@@ -18,18 +19,22 @@
     <div class="row">
         <div class="col-md-12">
             <div>
-                <h3>Creating....</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+                @using (Html.BeginForm("CreateWallet", "Wallet", FormMethod.Post, new {Class = "form-horizontal"}))
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(m => m.UserName, new {Value = "hardcodedUserName"})
+                    <div class="form-group">
+
+                        @Html.TextBoxFor(m => m.WalletName, new { Class = "form-control" })
+                        <br/>
+                        @Html.ValidationMessageFor(m => m.WalletName)
+
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                    
+                }
             </div>
         </div>
     </div>
-    <!-- /.row -->
-    <!-- Related Projects Row -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Actions</h3>
-        </div>
-    </div>
-    <!-- /.row -->
 </div>
 

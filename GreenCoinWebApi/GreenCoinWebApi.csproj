@@ -265,6 +265,7 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\override.css" />
     <Content Include="ExternalTheme\index.html" />
     <Content Include="ExternalTheme\startbootstrap-creative-1.0.2\css\animate.min.css" />
     <Content Include="ExternalTheme\startbootstrap-creative-1.0.2\css\bootstrap.css" />

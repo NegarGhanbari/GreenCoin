@@ -13,8 +13,6 @@ namespace GreenCoinWebApi.Controllers
         public ActionResult Transfer()
         {
             //Get balance
-            
-
             return View();
         }
 

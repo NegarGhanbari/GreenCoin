@@ -134,7 +134,7 @@ namespace GreenCoinWebApi.Controllers
                 PublicKey = address.ToString(),
                 PrivateKey = bitcoinPrivateKey.ToString()
             };
-          return  WalletData.Add(request.WalletName, walletInformation);
+          return WalletData.Add(request.WalletName, walletInformation);
         }
 
         [HttpGet]
