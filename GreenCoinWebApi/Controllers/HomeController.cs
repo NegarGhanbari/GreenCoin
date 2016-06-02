@@ -12,7 +12,10 @@ namespace GreenCoinWebApi.Controllers
 
         public ActionResult Transfer()
         {
-            return View("Transfer");
+            //Get balance
+            
+
+            return View();
         }
 
         public ActionResult CreateWallet()
