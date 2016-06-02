@@ -23,6 +23,10 @@ namespace GreenCoinWebApi
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            //Add external theme
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").IncludeDirectory("~/ExternalTheme/startbootstrap-creative-1.0.2", "*.js", true));
+            bundles.Add(new StyleBundle("~/Content/css").IncludeDirectory("~/ExternalTheme/startbootstrap-creative-1.0.2", "*.css", true));
         }
     }
 }
