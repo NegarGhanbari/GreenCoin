@@ -9,7 +9,7 @@ namespace GreenCoinWebApi.Models
     {
         public String SourceWallet { get; set; }
         public String DestinationWallet { get; set; }
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
     }
 
