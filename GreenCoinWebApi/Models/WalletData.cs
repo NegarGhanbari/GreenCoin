@@ -12,14 +12,14 @@ namespace GreenCoinWebApi.Models
         {
             Wallets = new Dictionary<string, WalletInformation>()
             {
-                {"NegarWallet" , new WalletInformation() {Person ="Negar.Ghanbari@fairfaxmedia.com.au",PublicKey = "n49AJCcJwBGQZRRf8gwhaKokV598isEgtN" , PrivateKey = "cSFG7VxzKokyCrUmwQpY6TbdVYJ4sYeujpT8w8R9LLjJPAGpwrgD" } },
-                {"CynthiaWallet" , new WalletInformation() {Person ="Cynthia@fairfaxmedia.com.au",PublicKey = "n13x7n9WE91kxxTUpGrYpiQy1bBm5HJ9Pc" , PrivateKey = "cVSbkJmmbm5EiZtoopHWtDEYCZjcionWGsDvtmC3HVW4k3nzxDr8" } },
+                {"NegarWallet" , new WalletInformation() {UserName ="Negar.Ghanbari@fairfaxmedia.com.au",PublicKey = "n49AJCcJwBGQZRRf8gwhaKokV598isEgtN" , PrivateKey = "cSFG7VxzKokyCrUmwQpY6TbdVYJ4sYeujpT8w8R9LLjJPAGpwrgD" } },
+                {"CynthiaWallet" , new WalletInformation() {UserName ="Cynthia@fairfaxmedia.com.au",PublicKey = "n13x7n9WE91kxxTUpGrYpiQy1bBm5HJ9Pc" , PrivateKey = "cVSbkJmmbm5EiZtoopHWtDEYCZjcionWGsDvtmC3HVW4k3nzxDr8" } },
             };
         }
 
-        public static IList<WalletInformation> GetWalletList(string key)
+        public static IList<string> GetWalletList(string userName)
         {
-            return Wallets.Where(w => w.Key == key).Select(x => x.Value).ToList();
+            return Wallets.Where(w => w.Value.UserName == userName).Select(x => x.Key).ToList();
         }
 
         public static WalletInformation GetWalletbyName(string walletName)
@@ -27,12 +27,26 @@ namespace GreenCoinWebApi.Models
             return Wallets.Where(w => w.Key == walletName).Select(x => x.Value).FirstOrDefault();
         }
 
+        public static bool Add(string walletName, WalletInformation information)
+        {
+            try
+            {
+                Wallets.Add(walletName, information);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
 
     }
 
     public class WalletInformation
     {
-        public string Person { get; set; }
+        public string UserName { get; set; }
 
         public string PublicKey { get; set; }
 
