@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using GreenCoinWebApi.Data;
 
 namespace GreenCoinWebApi.Models
 {
@@ -19,19 +21,47 @@ namespace GreenCoinWebApi.Models
 
         public static IList<string> GetWalletList(string userName)
         {
-            return Wallets.Where(w => w.Value.UserName == userName).Select(x => x.Key).ToList();
+            //return Wallets.Where(w => w.Value.UserName == userName).Select(x => x.Key).ToList();
+            IList<string> result;
+            using (var context = new GreenCoinDbContext())
+            {
+                result = context.Wallets.Where(w => w.User.UserName == userName).Select(x => x.Name).ToList();
+            }
+
+            return result;
         }
 
-        public static WalletInformation GetWalletbyName(string walletName)
+        public static Wallet GetWalletbyName(string walletName)
         {
-            return Wallets.Where(w => w.Key == walletName).Select(x => x.Value).FirstOrDefault();
+            // return Wallets.Where(w => w.Key == walletName).Select(x => x.Value).FirstOrDefault();
+
+            Wallet result;
+            using (var context = new GreenCoinDbContext())
+            {
+                result = context.Wallets.FirstOrDefault(w => w.Name == walletName );
+            }
+
+            return result;
         }
 
-        public static bool Add(string walletName, WalletInformation information)
+        public static bool Add(string walletName, string userName , string publicKey , string privateKey)
         {
             try
             {
-                Wallets.Add(walletName, information);
+                using (var context = new GreenCoinDbContext())
+                {
+                    var currentUser = context.Users.FirstOrDefault(x => x.UserName == userName);
+                    context.Wallets.Add(new Wallet()
+                    {
+                        Name = walletName,
+                        User = currentUser,
+                        PublicKey = publicKey,
+                        PrivateKey = privateKey
+                    });
+
+                    context.SaveChanges();
+                }
+               
                 return true;
             }
             catch (Exception ex)

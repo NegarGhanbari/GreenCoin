@@ -89,7 +89,7 @@ namespace GreenCoinWebApi.Controllers
             transaction.Outputs.Add(secondTxOut);
             transaction.Outputs.Add(changeBackTxOut);
 
-            var message = string.Format($"transaction from {0} to {1}!", sourceInfo.UserName ,destinationInfo.UserName) ;
+            var message = string.Format($"transaction from {0} to {1}!", sourceInfo.User.UserName ,destinationInfo.User.UserName) ;
             var bytes = Encoding.UTF8.GetBytes(message);
             transaction.Outputs.Add(new TxOut()
             {
@@ -124,17 +124,9 @@ namespace GreenCoinWebApi.Controllers
             BitcoinSecret bitcoinPrivateKey = key.GetWif(currentNetwork);
             //"WIF is : bitcoinPrivateKey
             PubKey pubKey = key.PubKey;
-           
            // address
             BitcoinPubKeyAddress address = pubKey.GetAddress(currentNetwork);
-
-            var walletInformation = new WalletInformation()
-            {
-                UserName = request.UserName,
-                PublicKey = address.ToString(),
-                PrivateKey = bitcoinPrivateKey.ToString()
-            };
-          return  WalletData.Add(request.WalletName, walletInformation);
+          return  WalletData.Add(request.WalletName, request.UserName , address.ToString() , bitcoinPrivateKey.ToString());
         }
 
         [HttpGet]
