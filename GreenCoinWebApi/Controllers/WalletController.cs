@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 using GreenCoinWebApi.Models;
 using NBitcoin;
+using NBitcoin.SPV;
+using Newtonsoft.Json;
 using QBitNinja.Client;
 using QBitNinja.Client.Models;
 
@@ -15,7 +17,15 @@ namespace GreenCoinWebApi.Controllers
     [Route("api/Wallet")] 
     public class WalletController : ApiController
     {
+        private readonly Network currentNetwork;
+        public WalletController()
+        {
+            currentNetwork = Network.TestNet;
+        }
+
         // returns TransactionID
+        [HttpPost]
+        [Route("Transfer")]
         public string Transfer(TransferRequest request)
         {
             var sourceInfo = WalletData.GetWalletbyName(request.SourceWallet);
@@ -46,6 +56,7 @@ namespace GreenCoinWebApi.Controllers
             
             //"We want to spend {0}. outpoint:", outPointToSpend.N + 1
             //new transaction
+            
             var transaction = new Transaction();
             transaction.Inputs.Add(new TxIn()
             {
@@ -53,7 +64,7 @@ namespace GreenCoinWebApi.Controllers
             });
 
             var secondAddress = new BitcoinPubKeyAddress(destinationInfo.PublicKey);
-
+            
             // How much you want to TO
             var transactionAmount = new Money((request.Amount), MoneyUnit.BTC);
 
@@ -78,7 +89,7 @@ namespace GreenCoinWebApi.Controllers
             transaction.Outputs.Add(secondTxOut);
             transaction.Outputs.Add(changeBackTxOut);
 
-            var message = string.Format($"transaction from {0} to {1}!", sourceInfo.Person ,destinationInfo.Person) ;
+            var message = string.Format($"transaction from {0} to {1}!", sourceInfo.UserName ,destinationInfo.UserName) ;
             var bytes = Encoding.UTF8.GetBytes(message);
             transaction.Outputs.Add(new TxOut()
             {
@@ -104,6 +115,90 @@ namespace GreenCoinWebApi.Controllers
             }
 
         }
+
+        [HttpPost]
+        [Route("Wallet")]
+        public bool CreateWallet(CreateWalletRequest request)
+        {
+            Key key = new Key();
+            BitcoinSecret bitcoinPrivateKey = key.GetWif(currentNetwork);
+            //"WIF is : bitcoinPrivateKey
+            PubKey pubKey = key.PubKey;
+           
+           // address
+            BitcoinPubKeyAddress address = pubKey.GetAddress(currentNetwork);
+
+            var walletInformation = new WalletInformation()
+            {
+                UserName = request.UserName,
+                PublicKey = address.ToString(),
+                PrivateKey = bitcoinPrivateKey.ToString()
+            };
+          return  WalletData.Add(request.WalletName, walletInformation);
+        }
+
+        [HttpGet]
+        [Route("Wallet/{walletName}/balance")]
+        public decimal GetBalance(string walletName)
+        {
+            var wallet = WalletData.GetWalletbyName(walletName);
+           var result = Get<WalletSummary>("http://tapi.qbit.ninja/balances/" + wallet.PublicKey +"/summary",null).Result;
+           return result.Spendable.Amount.ToUnit(MoneyUnit.BTC);
+        }
+
+        [HttpGet]
+        [Route("Wallet/{userName}")]
+        public IList<String> GetWalletList(string userName)
+        {
+            return WalletData.GetWalletList(userName);
+        }
+
+        private Task<T> Get<T>(string path, params object[] parameters)
+        {
+            return Send<T>(HttpMethod.Get, null, path, parameters);
+        }
+
+        private async Task<T> Send<T>(HttpMethod method, object body, string path, params object[] parameters)
+        {
+            using (var client = new HttpClient())
+            {
+                var message = new HttpRequestMessage(method, path);
+                if (body != null)
+                {
+                    message.Content = new StringContent(Serializer.ToString(body, currentNetwork), Encoding.UTF8, "application/json");
+                }
+                var result = await client.SendAsync(message).ConfigureAwait(false);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                    return default(T);
+                if (!result.IsSuccessStatusCode)
+                {
+                    string error = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        try
+                        {
+                            var errorObject = Serializer.ToObject<QBitNinjaError>(error, currentNetwork);
+                            if (errorObject.StatusCode != 0)
+                                throw new QBitNinjaException(errorObject);
+                        }
+                        catch (JsonSerializationException)
+                        {
+                        }
+                        catch (JsonReaderException)
+                        {
+                        }
+                    }
+                }
+                result.EnsureSuccessStatusCode();
+                if (typeof(T) == typeof(byte[]))
+                    return (T)(object)await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                var str = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+                if (typeof(T) == typeof(string))
+                    return (T)(object)str;
+                return Serializer.ToObject<T>(str, currentNetwork);
+            }
+        }
+
 
     }
 }

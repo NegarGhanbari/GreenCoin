@@ -7,11 +7,19 @@ namespace GreenCoinWebApi.Models
 {
     public class TransferRequest
     {
-        public String SourceWallet { get; set; }
-        public String DestinationWallet { get; set; }
+        public string SourceWallet { get; set; }
+        public string DestinationWallet { get; set; }
         public decimal Amount { get; set; }
 
     }
 
-   
+    public class CreateWalletRequest
+    {
+        public string UserName { get; set; }
+
+        public string WalletName { get; set;}
+
+    }
+
+
 }
