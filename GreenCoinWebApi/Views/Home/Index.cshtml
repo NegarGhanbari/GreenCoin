@@ -22,41 +22,7 @@
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
     </div>
 </div>*@
-
 <div>
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Domain Green Coin</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="page-scroll" href="#about">About</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
     <header>
         <div class="header-content">
             <div class="header-content-inner">
@@ -93,29 +59,29 @@
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
-                        <h3>Create Wallet</h3>
-                        <p class="text-muted">.</p>
+                        <h3><a href="@Url.Action("CreateWallet", "Home")">Create Wallet</a></h3>
+                        <p class="text-muted">Create my Domain Wallet</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                        <h3>Transfer</h3>
+                        <h3><a href="@Url.Action("Transfer", "Home")">Transfer</a></h3>
                         <p class="text-muted">Transfer your coin</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                        <h3>Balance</h3>
+                        <h3><a href="@Url.Action("ViewBalance", "Home")">Balance</a></h3>
                         <p class="text-muted">View Balance</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
                         <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
-                        <h3>Love My Coin</h3>
-                        <p class="text-muted"></p>
+                        <h3><a href="@Url.Action("AddCoin", "Home")">Love My Coin</a></h3>
+                        <p class="text-muted">Build up my coin</p>
                     </div>
                 </div>
             </div>
@@ -126,14 +92,14 @@
             <div class="row no-gutter">
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/1.jpg" class="img-responsive" alt="">
+                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/7.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Category
+                                    Service
                                 </div>
                                 <div class="project-name">
-                                    Project Name
+                                    Wallet
                                 </div>
                             </div>
                         </div>
@@ -141,14 +107,14 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/2.jpg" class="img-responsive" alt="">
+                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/8.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Category
+                                    Service
                                 </div>
                                 <div class="project-name">
-                                    Project Name
+                                    Transfer
                                 </div>
                             </div>
                         </div>
@@ -156,64 +122,20 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#" class="portfolio-box">
-                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/3.jpg" class="img-responsive" alt="">
+                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/11.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Category
+                                    Service
                                 </div>
                                 <div class="project-name">
-                                    Project Name
+                                    Balance
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/4.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/5.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
-                        <img src="/ExternalTheme/startbootstrap-creative-1.0.2/img/portfolio/6.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                
             </div>
         </div>
     </section>
