@@ -23,6 +23,47 @@ namespace GreenCoinWebApi.Controllers
             currentNetwork = Network.TestNet;
         }
 
+        [Route("api/Wallet/Slack")]
+        public IHttpActionResult Slack(SlackRequest request)
+        {
+            var responseText = "Your Kwan: $100,000,001";
+
+            if (request.command.ToLower().Contains("coin"))
+            {
+                try
+                {
+                    var parms = request.text.Split(' ');
+                    if (parms.Length == 0)
+                        responseText = "Can't show you the money!!";
+
+                    if (parms.Length == 1)
+                    {
+                        if (parms[0] == "balance")
+                        {
+                            responseText = "Your Kwan balance is -$1 :(";
+                        }
+                        else if (parms[0] == "status")
+                        {
+                            responseText = "Show Me The Money!!";
+                        }
+                    }
+
+                    if (parms.Length == 2)
+                    {
+                        responseText = "Your Kwan sent to" + parms[0] + " $" + parms[1];
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            var client = new DotNetSlackClient.SlackClient(request.response_url);
+            client.NotifySlack(responseText);
+
+            return Ok();
+        }
+        
         // returns TransactionID
         [HttpPost]
         [Route("Transfer")]
