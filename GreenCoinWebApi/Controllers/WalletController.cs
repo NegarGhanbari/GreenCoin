@@ -63,7 +63,7 @@ namespace GreenCoinWebApi.Controllers
 
             return Ok();
         }
-
+        
         // returns TransactionID
         [HttpPost]
         [Route("api/Wallet/Transfer")]
