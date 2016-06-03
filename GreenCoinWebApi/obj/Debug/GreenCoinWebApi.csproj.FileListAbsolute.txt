@@ -376,3 +376,4 @@ C:\Git\GreenCoin\GreenCoinWebApi\bin\System.Web.Http.Owin.xml
 C:\Git\GreenCoin\GreenCoinWebApi\obj\Debug\GreenCoinWebApi.csprojResolveAssemblyReference.cache
 C:\Git\GreenCoin\GreenCoinWebApi\obj\Debug\GreenCoinWebApi.dll
 C:\Git\GreenCoin\GreenCoinWebApi\obj\Debug\GreenCoinWebApi.pdb
+C:\Projects\GreenCoin\GreenCoinWebApi\bin\DotNetSlackClient.dll

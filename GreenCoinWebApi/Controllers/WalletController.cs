@@ -14,7 +14,7 @@ using QBitNinja.Client.Models;
 
 namespace GreenCoinWebApi.Controllers
 {
-    [Route("api/Wallet")] 
+    //[Route("api/Wallet")]
     public class WalletController : ApiController
     {
         private readonly Network currentNetwork;
@@ -23,9 +23,50 @@ namespace GreenCoinWebApi.Controllers
             currentNetwork = Network.TestNet;
         }
 
+        [Route("api/Wallet/Slack")]
+        public IHttpActionResult Slack(SlackRequest request)
+        {
+            var responseText = "Your Kwan: $100,000,001";
+
+            if (request.command.ToLower().Contains("coin"))
+            {
+                try
+                {
+                    var parms = request.text.Split(' ');
+                    if (parms.Length == 0)
+                        responseText = "Can't show you the money!!";
+
+                    if (parms.Length == 1)
+                    {
+                        if (parms[0] == "balance")
+                        {
+                            responseText = "Your Kwan balance is -$1 :(";
+                        }
+                        else if (parms[0] == "status")
+                        {
+                            responseText = "Show Me The Money!!";
+                        }
+                    }
+
+                    if (parms.Length == 2)
+                    {
+                        responseText = "Your Kwan sent to" + parms[0] + " $" + parms[1];
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            var client = new DotNetSlackClient.SlackClient(request.response_url);
+            client.NotifySlack(responseText);
+
+            return Ok();
+        }
+
         // returns TransactionID
         [HttpPost]
-        [Route("Transfer")]
+        [Route("api/Wallet/Transfer")]
         public string Transfer(TransferRequest request)
         {
             var sourceInfo = WalletData.GetWalletbyName(request.SourceWallet);
@@ -41,7 +82,7 @@ namespace GreenCoinWebApi.Controllers
             GetTransactionResponse transactionResponse = client.GetTransaction(transactionId).Result;
 
             List<ICoin> receivedCoins = transactionResponse.ReceivedCoins;
-            
+
             OutPoint outPointToSpend = null;
             foreach (var coin in receivedCoins)
             {
@@ -53,10 +94,10 @@ namespace GreenCoinWebApi.Controllers
 
             if (outPointToSpend == null)
                 throw new Exception("TxOut doesn't contain our ScriptPubKey");
-            
+
             //"We want to spend {0}. outpoint:", outPointToSpend.N + 1
             //new transaction
-            
+
             var transaction = new Transaction();
             transaction.Inputs.Add(new TxIn()
             {
@@ -64,7 +105,7 @@ namespace GreenCoinWebApi.Controllers
             });
 
             var secondAddress = new BitcoinPubKeyAddress(destinationInfo.PublicKey);
-            
+
             // How much you want to TO
             var transactionAmount = new Money((request.Amount), MoneyUnit.BTC);
 
@@ -89,7 +130,7 @@ namespace GreenCoinWebApi.Controllers
             transaction.Outputs.Add(secondTxOut);
             transaction.Outputs.Add(changeBackTxOut);
 
-            var message = string.Format($"transaction from {0} to {1}!", sourceInfo.User.UserName ,destinationInfo.User.UserName) ;
+            var message = string.Format($"transaction from {0} to {1}!", sourceInfo.UserName, destinationInfo.UserName);
             var bytes = Encoding.UTF8.GetBytes(message);
             transaction.Outputs.Add(new TxOut()
             {
@@ -110,23 +151,23 @@ namespace GreenCoinWebApi.Controllers
             }
             else
             {
-               // You can check out the hash of the transaciton in any block explorer
+                // You can check out the hash of the transaciton in any block explorer
                 return (transaction.GetHash().ToString());
             }
 
         }
 
         [HttpPost]
-        [Route("Wallet")]
+        [Route("api/Wallet/Wallet")]
         public bool CreateWallet(CreateWalletRequest request)
         {
             Key key = new Key();
             BitcoinSecret bitcoinPrivateKey = key.GetWif(currentNetwork);
             //"WIF is : bitcoinPrivateKey
             PubKey pubKey = key.PubKey;
-           // address
+            // address
             BitcoinPubKeyAddress address = pubKey.GetAddress(currentNetwork);
-          return  WalletData.Add(request.WalletName, request.UserName , address.ToString() , bitcoinPrivateKey.ToString());
+            return WalletData.Add(request.WalletName, request.UserName, address.ToString(), bitcoinPrivateKey.ToString());
         }
 
         [HttpGet]
@@ -134,8 +175,8 @@ namespace GreenCoinWebApi.Controllers
         public decimal GetBalance(string walletName)
         {
             var wallet = WalletData.GetWalletbyName(walletName);
-           var result = Get<WalletSummary>("http://tapi.qbit.ninja/balances/" + wallet.PublicKey +"/summary",null).Result;
-           return result.Spendable.Amount.ToUnit(MoneyUnit.BTC);
+            var result = Get<WalletSummary>("http://tapi.qbit.ninja/balances/" + wallet.PublicKey + "/summary", null).Result;
+            return result.Spendable.Amount.ToUnit(MoneyUnit.BTC);
         }
 
         [HttpGet]

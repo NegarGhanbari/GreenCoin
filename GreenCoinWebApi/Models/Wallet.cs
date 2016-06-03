@@ -16,7 +16,9 @@ namespace GreenCoinWebApi.Models
 
         public string PrivateKey { get; set; }
 
-        public User User { get; set; }
+
+        public int UserId { get; set; }
+        public User UserName { get; set; }
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using GreenCoinWebApi.Models;
 
 namespace GreenCoinWebApi.Controllers
 {
@@ -18,7 +19,8 @@ namespace GreenCoinWebApi.Controllers
 
         public ActionResult CreateWallet()
         {
-            return View();
+            var model = new CreateWalletRequest() {UserName = "negar"};
+            return View(model);
         }
 
         public ActionResult ViewBalance()

@@ -22,14 +22,14 @@
                 @using (Html.BeginForm("CreateWallet", "Wallet", FormMethod.Post, new {Class = "form-horizontal"}))
                 {
                     @Html.ValidationSummary(true)
-                    @Html.HiddenFor(m => m.UserName, new {Value = "hardcodedUserName"})
+                    @Html.HiddenFor(m => m.UserName, new {Value = "Negar"})
                     <div class="form-group">
 
                         @Html.TextBoxFor(m => m.WalletName, new { Class = "form-control" })
                         <br/>
                         @Html.ValidationMessageFor(m => m.WalletName)
 
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" onclick="CreateWallet();" value="Create" class="btn btn-primary" />
                     </div>
                     
                 }
@@ -38,3 +38,25 @@
     </div>
 </div>
 
+<script type="text/javascript">
+
+    function CreateWallet() {
+        var un = $('#UserName').val();
+
+            var model = {
+                UserName: un ,
+                WalletName: $('#WalletName').val()
+        };
+            alert("java call");
+            var apiurl = "http://localhost:60477/api/Wallet/Wallet";
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: apiurl,
+        data: JSON.stringify(model),
+        async: false
+      });
+    }
+
+</script>

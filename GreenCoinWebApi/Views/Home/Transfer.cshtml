@@ -1,6 +1,7 @@
-﻿
+﻿@model GreenCoinWebApi.Models.TransferRequest 
+
 @{
-    ViewBag.Title = "Transfer";
+    ViewBag.Title = "Transfer Coin";
 }
 
 <!-- Navigation -->
@@ -10,7 +11,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Transfer
+                Transfer Coin
             </h1>
             @*<ol class="breadcrumb">
                 <li>
@@ -22,41 +23,62 @@
     </div>
     <!-- /.row -->
     <!-- Portfolio Item Row -->
-    <div class="row">
-        <div class="col-md-12">
-            <div>
-                <h3>Transferring....</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>                
+
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    @using (Html.BeginForm("CreateWallet", "Wallet", FormMethod.Post, new { Class = "form-horizontal" }))
+                    {
+                        @Html.ValidationSummary(true)
+                        @*@Html.HiddenFor(m => m.UserName, new { Value = "Negar" })*@
+                        <div class="form-group">
+                            @Html.LabelFor( m => m.SourceWallet , new { Class = "form-control" })
+                            @Html.TextBoxFor(m => m.SourceWallet, new { Class = "form-control" })
+                            <br />
+                            @Html.LabelFor(m => m.DestinationWallet, new { Class = "form-control" })
+                            @Html.TextBoxFor(m => m.DestinationWallet, new { Class = "form-control" })
+
+                            <br/>
+                            @Html.LabelFor(m => m.Amount , new { Class = "form-control" })
+                            @Html.TextBoxFor(m => m.Amount , new { Class = "form-control" })
+
+                            <input type="submit" onclick="TransferCoin();" value="Create" class="btn btn-primary" />
+                        </div>
+
+                    }
+                </div>
             </div>
         </div>
-    </div>
+
+  
     <!-- /.row -->
     <!-- Related Projects Row -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Related Projects</h3>
-        </div>
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive img-hover img-related" src="http://placehold.it/500x300" alt="">
-            </a>
-        </div>
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive img-hover img-related" src="http://placehold.it/500x300" alt="">
-            </a>
-        </div>
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive img-hover img-related" src="http://placehold.it/500x300" alt="">
-            </a>
-        </div>
-        <div class="col-sm-3 col-xs-6">
-            <a href="#">
-                <img class="img-responsive img-hover img-related" src="http://placehold.it/500x300" alt="">
-            </a>
-        </div>
-    </div>
+   
     <!-- /.row -->
 </div>
 <!-- /.container -->
+
+<script type="text/javascript">
+
+    function TransferCoin() {
+        var un = ;
+
+            var model = {
+                SourceWallet: $('#SourceWallet').val() ,
+                DestinationWallet: $('#DestinationWallet').val(),
+                Amount: $('#Amount').val()
+
+        };
+            alert("java call");
+            var apiurl = "http://localhost:60477/api/Wallet/Wallet";
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: apiurl,
+        data: JSON.stringify(model),
+        async: false
+      });
+    }
+
+</script>

@@ -25,7 +25,8 @@ namespace GreenCoinWebApi.Models
             IList<string> result;
             using (var context = new GreenCoinDbContext())
             {
-                result = context.Wallets.Where(w => w.User.UserName == userName).Select(x => x.Name).ToList();
+                var user = context.Users.FirstOrDefault(u => u.UserName == userName);
+                result = context.Wallets.Where(w => w.UserId == user.ID).Select(x => x.Name).ToList();
             }
 
             return result;
@@ -39,6 +40,7 @@ namespace GreenCoinWebApi.Models
             using (var context = new GreenCoinDbContext())
             {
                 result = context.Wallets.FirstOrDefault(w => w.Name == walletName );
+                result.UserName = context.Users.FirstOrDefault(u => u.ID == result.UserId);
             }
 
             return result;
@@ -54,7 +56,7 @@ namespace GreenCoinWebApi.Models
                     context.Wallets.Add(new Wallet()
                     {
                         Name = walletName,
-                        User = currentUser,
+                        UserId  = currentUser.ID,
                         PublicKey = publicKey,
                         PrivateKey = privateKey
                     });
