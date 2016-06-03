@@ -263,6 +263,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Wallet.cs" />
     <Compile Include="Models\WalletData.cs" />
+    <Compile Include="Models\WalletView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -273,6 +274,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\override.css" />
+    <Content Include="Content\wallet.gif" />
     <Content Include="ExternalTheme\index.html" />
     <Content Include="ExternalTheme\startbootstrap-creative-1.0.2\css\animate.min.css" />
     <Content Include="ExternalTheme\startbootstrap-creative-1.0.2\css\bootstrap.css" />

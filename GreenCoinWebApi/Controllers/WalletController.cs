@@ -77,7 +77,7 @@ namespace GreenCoinWebApi.Controllers
             QBitNinjaClient client = new QBitNinjaClient(Network.TestNet);
             //todo: should not be hard coded
             // Parse transaction id to NBitcoin.uint256 so the client can eat it
-            var transactionId = uint256.Parse("4baffd798e9149355b02d57ed91aa8a50133d8e3844077f9e63fbe5a3722f18e");
+            var transactionId = uint256.Parse("b2401678a7f9395177bcecd9027713166d8ce436348212be3ff16ced03dc1423");
             // Query the transaction
             GetTransactionResponse transactionResponse = client.GetTransaction(transactionId).Result;
 

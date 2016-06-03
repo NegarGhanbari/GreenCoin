@@ -4,6 +4,13 @@
     ViewBag.Title = "Create Wallet";
 }
 
+<div id="CreateSuccessful" style="display:none" class="row alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>
+        Created Wallet
+    </strong>
+</div>
+
 <div class="container">
     <br />
     <!-- Page Heading/Breadcrumbs -->
@@ -55,8 +62,14 @@
         contentType: "application/json",
         url: apiurl,
         data: JSON.stringify(model),
-        async: false
-      });
+        async: false,
+        success: function () {
+            $("#CreateSuccessful").fadeToggle(1000);
+        }
+        
+    });
+
+       
     }
 
 </script>

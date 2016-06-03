@@ -32,17 +32,18 @@
                         @Html.ValidationSummary(true)
                         @*@Html.HiddenFor(m => m.UserName, new { Value = "Negar" })*@
                         <div class="form-group">
-                            @Html.LabelFor( m => m.SourceWallet , new { Class = "form-control" })
+                            <h3>From Wallet</h3>
                             @Html.TextBoxFor(m => m.SourceWallet, new { Class = "form-control" })
                             <br />
-                            @Html.LabelFor(m => m.DestinationWallet, new { Class = "form-control" })
+                            <h3>To Wallet</h3>
                             @Html.TextBoxFor(m => m.DestinationWallet, new { Class = "form-control" })
 
                             <br/>
-                            @Html.LabelFor(m => m.Amount , new { Class = "form-control" })
+                            <h3>Amount</h3>
                             @Html.TextBoxFor(m => m.Amount , new { Class = "form-control" })
-
-                            <input type="submit" onclick="TransferCoin();" value="Create" class="btn btn-primary" />
+                            <br/>
+                            <br />
+                            <input type="submit" onclick="TransferCoin();" value="Transfer" class="btn btn-primary" />
                         </div>
 
                     }
@@ -61,7 +62,6 @@
 <script type="text/javascript">
 
     function TransferCoin() {
-        var un = ;
 
             var model = {
                 SourceWallet: $('#SourceWallet').val() ,
@@ -70,7 +70,7 @@
 
         };
             alert("java call");
-            var apiurl = "http://localhost:60477/api/Wallet/Wallet";
+            var apiurl = "http://localhost:60477/api/Wallet/Transfer";
 
     $.ajax({
         type: "POST",
